@@ -24,3 +24,5 @@ console.log(sum);
 console.log(validator.isEmail("lohitakshsingla0.com"));
 console.log(validator.isURL("lohitakshsingla0@gmail.com"));
 console.log(chalk.blue.bold.inverse('Error!'));
+
+console.log(process.argv[2]);
