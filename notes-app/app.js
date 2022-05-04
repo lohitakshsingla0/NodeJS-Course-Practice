@@ -7,6 +7,9 @@
 // fs.appendFileSync('notes.txt',' This was edited by Lohitaksh');
 // //appends data to existing file.
 
+const validator = require('validator');
+const { default: isEmail } = require('validator/lib/isemail');
+
 const add= require('./utils.js');
 //const name= require('./utils.js');
 //const name = "Lohitaksh";
@@ -15,3 +18,7 @@ const sum = add(4, 10);
 
 console.log(sum);
 //console.log(name); 
+
+
+console.log(validator.isEmail("lohitakshsingla0.com"));
+console.log(validator.isURL("lohitakshsingla0@gmail.com"));
