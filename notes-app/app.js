@@ -9,11 +9,14 @@
 
 const chalk = require('chalk');
 const validator = require('validator');
+const { argv } = require('yargs');
 const yargs = require('yargs');
-const { default: isEmail } = require('validator/lib/isemail');
+//const { default: isEmail } = require('validator/lib/isemail');
+const notes = require('./notes.js')
+
 
 const add= require('./utils.js');
-const { argv } = require('yargs');
+//const { argv, require } = require('yargs');
 //const name= require('./utils.js');
 //const name = "Lohitaksh";
 
@@ -54,9 +57,9 @@ yargs.command({
             type: 'string'
         }
     },
-    handler: function(){
-        console.log('Title: ', argv.title)
-        console.log('Body: ', argv.body)
+    handler: function(argv){
+        notes.addNote(argv.title ,argv.body)
+       
     }
 })
 
@@ -64,8 +67,15 @@ yargs.command({
 yargs.command({
     command : 'remove',
     describe: 'removing a note',
+    builder: {
+        title:{
+            describe: 'Note Title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
     handler: function(){
-        console.log('removing a note finally');
+        notes.removeNote(argv.title)
     }
 })
 
