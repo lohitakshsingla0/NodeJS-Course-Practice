@@ -2,38 +2,50 @@ const { Console } = require('console')
 const fs  = require('fs')
 const chalk = require('chalk');
 
-const getNotes = function(){
+const getNotes = () => {
     return 'Your Notes'
 }
 
-const addNote = function(title, body){
+const addNote= (title, body) => {
     const notes = loadNotes()
-    const duplicateNotes = notes.filter(function(note){
-        return note.title===title
+    //const duplicateNotes = notes.filter((note) => note.title===title)
+    const duplicateNote = notes.find((note) => note.title===title)
+    //console.log(duplicateNote)
 
-    })
-
-    if (duplicateNotes.length ===0){
+    debugger
+    if (!duplicateNote){
         notes.push({
             title: title,
-            bode: body
+            body: body
         })
         saveNotes(notes)
         console.log("New Notes added!")
     } else {
         console.log("Note title taken!")
     }
-
-    
     
 }
+
+const readNote = (title) =>{
+    const notes = loadNotes()
+    const note = notes.find((note) => note.title ===title)
+
+    if(note){
+        console.log(chalk.inverse(note.title))
+        console.log(note.bode)
+    }
+    else{
+        console.log(chalk.red.inverse("Note not found"))
+    }   
+}
+
 
 const saveNotes = function(notes){
     const dataJSON = JSON.stringify(notes)
     fs.writeFileSync('notes.json', dataJSON)
 }
 
-const loadNotes = function (){
+const loadNotes =  () =>{
     try{
         const dataBuffer = fs.readFileSync('notes.json')
         const dataJSON = dataBuffer.toString()
@@ -49,9 +61,7 @@ const loadNotes = function (){
 
 const removeNote = function(title){
     const notes = loadNotes()
-    const notesToKeep = notes.filter(function(note){
-        return note.title !== title
-    })
+    const notesToKeep = notes.filter((note) =>  note.title !== title)
     
 
     if (notesToKeep.length === notes.length){
@@ -62,6 +72,14 @@ const removeNote = function(title){
     }
 }
 
+const listNotes = () =>{
+    const notes = loadNotes()
+    console.log(chalk.inverse("Your Notes"))
+
+    notes.forEach((note) => {
+        console.log(note.title)
+    });
+}
 
 
 //module.exports = getNotes;
@@ -69,5 +87,7 @@ const removeNote = function(title){
 module.exports = {
     getNotes: getNotes,
     addNote: addNote,
-    removeNote: removeNote
+    removeNote: removeNote,
+    listNotes: listNotes,
+    readNote: readNote
 }
